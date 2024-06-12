@@ -35,7 +35,7 @@ export default function Home() {
                         <header className="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
                             <div className="flex lg:justify-center lg:col-start-2">
 
-                                {fetchError && <InputError message={fetchError} className="mt-2"/>}
+                                {!productData && <InputError message={fetchError} className="mt-2"/>}
 
                                 <form onSubmit={submit}
                                       className="flex flex-col lg:flex-row items-center gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800">
