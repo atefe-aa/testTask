@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\ProductService;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
@@ -14,6 +15,9 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
+    /**
+     * @throws ConnectionException
+     */
     public function show(int $id): JsonResponse
     {
         if (!is_numeric($id)) {
@@ -21,6 +25,9 @@ class ProductController extends Controller
         }
 
         $responseData = $this->productService->getProduct($id);
+        if ($responseData['status'] !== 200) {
+            return response()->json(['error' => 'Services error.'], $responseData['status']);
+        }
 
         return response()->json($responseData);
     }

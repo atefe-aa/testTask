@@ -11,14 +11,14 @@ export default function Home() {
         productId: '',
     });
     const [productData, setProductData] = useState();
-    const [error, setError] = useState(null)
-    console.log('Data:', data);
+    const [fetchError, setFetchError] = useState(null)
+
     const submit = (e) => {
         e.preventDefault();
 
-        const {data: incomingData, errors} = request(`/products/` + data.productId)
-        if (errors) {
-            setError(errors);
+        const {data: incomingData, error} = request(`/products/` + data.productId)
+        if (error) {
+            setFetchError(error);
         }
         if (incomingData) {
             setProductData(incomingData);
@@ -41,7 +41,7 @@ export default function Home() {
                     <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                         <header className="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
                             <div className="flex lg:justify-center lg:col-start-2">
-                                {error && <InputError message={error} className="mt-2"/>}
+                                {fetchError && <InputError message={fetchError} className="mt-2"/>}
                                 <form onSubmit={submit}
                                       className="flex items-center gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800">
                                     <div

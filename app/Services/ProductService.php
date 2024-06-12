@@ -2,21 +2,24 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class ProductService
 {
+    /**
+     * @throws ConnectionException
+     */
     public function getProduct($id)
     {
         $url = config('services.product.url');
-        $response = Http::get($url . '/' . $id);
 
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+        ])->get($url . '/' . $id . '/');
 
         if ($response->successful()) {
             $data = $response->json();
-            Log::info($data);
-
             return $data;
         }
 
