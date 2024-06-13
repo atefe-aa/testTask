@@ -11,6 +11,10 @@
 
 visit http://localhos:8000/
 
+The PDF generation process happens on the front-end because the styling is more flexible
+and there's a package which is compatible with Farsi characters.
+but the images can not be loaded from the urls.They need to be base64 to be loaded properly on the PDF.
+
 ## Second Task : Topics and Tickets
 
 visit http://localhos:8000/topic
