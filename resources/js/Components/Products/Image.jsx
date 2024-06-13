@@ -22,7 +22,7 @@ export default function Image({images}) {
                 <img src={Array.isArray(images.main.url) ? images.main.url[0] : images.main.url} alt="main image"
                      className="w-full rounded h-auto"/>
             </div>
-            {images.list.length > 0 && images.list.map((img, index) => (
+            {images.list && images.list.length > 0 && images.list.map((img, index) => (
                 <div key={index}>
                     <img src={Array.isArray(img.url) ? img.url[0] : img.url} alt={`Slide ${index}`}
                          className="w-full rounded h-auto"/>

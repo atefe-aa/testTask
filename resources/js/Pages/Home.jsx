@@ -11,6 +11,7 @@ export default function Home() {
     const {data, setData, post, processing, errors} = useForm({
         productId: '',
     });
+    const [isLoading, setIsLoading] = useState(false);
     const [productData, setProductData] = useState();
     const [fetchError, setFetchError] = useState(null)
 
@@ -18,12 +19,22 @@ export default function Home() {
         e.preventDefault();
 
         try {
-            const {data: incomingData} = await request(`/products/${data.productId}`);
+            setIsLoading(true);
+
+            const {data: incomingData, error, status} = await request(`/products/${data.productId}`);
+
+            setIsLoading(false)
+            console.log(error)
+            if (error) setFetchError(error)
+            if (status === 404) setFetchError('Product not found!');
             setProductData(incomingData);
+
         } catch (error) {
+            setIsLoading(false)
             setFetchError(error.message);
         }
     };
+
 
     return (
         <>
@@ -33,9 +44,8 @@ export default function Home() {
                     className="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
                     <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                         <header className="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
-                            <div className="flex lg:justify-center lg:col-start-2">
+                            <div className="flex flex-col lg:justify-center lg:col-start-2">
 
-                                {!productData && <InputError message={fetchError} className="mt-2"/>}
 
                                 <form onSubmit={submit}
                                       className="flex flex-col lg:flex-row items-center gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800">
@@ -57,10 +67,13 @@ export default function Home() {
 
                                     <div className="flex items-center justify-center lg:mt-4">
                                         <PrimaryButton className="ms-4 flex " disabled={processing}>
-                                            Search<span>🔎</span>
+                                            {!isLoading ? <div>Search < span>🔎</span></div> :
+                                                <div>Loading... < span>🌀</span></div>}
                                         </PrimaryButton>
                                     </div>
                                 </form>
+                                {!isLoading && !productData && fetchError &&
+                                    <div className="bg-red-600  block  p-4 mt-6 rounded">{fetchError}</div>}
                             </div>
                         </header>
 

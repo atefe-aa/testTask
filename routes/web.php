@@ -9,4 +9,5 @@ Route::get('/', function () {
 });
 
 Route::get('/products/{id}', [ProductController::class, 'show']);
+Route::get('download-pdf/{id}', [ProductController::class, 'downloadPdf']);
 

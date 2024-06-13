@@ -5,7 +5,8 @@ export default function Comments({comments}) {
             {comments && comments.length > 0 ?
                 <div>
                     {comments.map((com, index) =>
-                        <div className={`${index !== comments.length - 1 ? "border-b" : ""} border-zinc-300 pb-6 mb-6`}>
+                        <div key={com.id}
+                             className={`${index !== comments.length - 1 ? "border-b" : ""} border-zinc-300 pb-6 mb-6`}>
                             <div className="font-bold">{com.user_name}</div>
                             <div>{com.rate} ⭐</div>
                             <div>{com.title}</div>
