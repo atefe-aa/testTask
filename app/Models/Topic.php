@@ -14,14 +14,16 @@ class Topic extends Model
         'parent_topic_id',
         'name'
     ];
+    protected $primaryKey = 'topic_id';
+
+    // Relationship to tickets
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class, 'topic_id', 'topic_id');
+    }
 
     public function children(): HasMany
     {
-        return $this->hasMany(__CLASS__, 'parent_topic_id');
-    }
-
-    public function tickets(): HasMany
-    {
-        return $this->hasMany(Ticket::class, 'topic_id');
+        return $this->hasMany(__CLASS__, 'topic_parent_id', 'topic_id');
     }
 }

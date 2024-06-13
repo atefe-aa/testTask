@@ -21,7 +21,7 @@ class TopicFactory extends Factory
         $existingTopicIds = Topic::pluck('topic_id')->toArray();
 
         // Randomly choose a topic_id from existing IDs or default to 0
-        $parentId = count($existingTopicIds) > 0 && $this->faker->boolean(50)
+        $parentId = count($existingTopicIds) > 0 && $this->faker->boolean()
             ? $this->faker->randomElement($existingTopicIds)
             : 0;
 
